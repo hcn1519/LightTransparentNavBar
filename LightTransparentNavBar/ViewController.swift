@@ -28,7 +28,6 @@ class ViewController: UIViewController {
         if let navigationBar = self.navigationController?.navigationBar as? LightTransparentNavBar {
             navigationBar.isTransparent = true
             navigationBar.hideBottomNavigationLine = true
-            navigationBar.maxOffset = 1500
             navigationBar.color = .blue
         }
     }
@@ -50,7 +49,11 @@ class ViewController: UIViewController {
 extension ViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let navigationBar = self.navigationController?.navigationBar as? LightTransparentNavBar {
-            navigationBar.scrollViewDidScroll(scrollView)
+
+            navigationBar.alpha = scrollView.contentOffset.y / (1500 - scrollView.frame.size.height)
+            print("offset", scrollView.contentOffset.y / 1500)
+            print("alpha", navigationBar.alpha)
         }
+
     }
 }

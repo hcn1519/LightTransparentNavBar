@@ -9,9 +9,25 @@
 import UIKit
 
 open class LightTransparentNavBar: UINavigationBar {
-    open var maxOffset: CGFloat = 0.0
     open var color: UIColor = .white
 
+    open override var alpha: CGFloat {
+        didSet {
+            if alpha > 1 {
+                alpha = 1.0
+                self.isTranslucent = false
+                self.setBackground(color: color)
+            } else if alpha < 0 {
+                alpha = 0.0
+                self.isTranslucent = true
+                self.setBackground(color: color.withAlphaComponent(alpha))
+            } else {
+                self.isTranslucent = true
+                self.setBackground(color: color.withAlphaComponent(alpha))
+            }
+        }
+    }
+    
     override open func awakeFromNib() {
         super.awakeFromNib()
         self.showTransparentNavigationBar()
@@ -68,23 +84,6 @@ extension LightTransparentNavBar {
     func hideTransparentNavigationBar() {
         self.setBackgroundImage(UINavigationBar.appearance().backgroundImage(for: UIBarMetrics.default), for:.default)
         self.isTranslucent = UINavigationBar.appearance().isTranslucent
-    }
-}
-
-extension LightTransparentNavBar: UIScrollViewDelegate {
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
-        let contentOffset: CGFloat = scrollView.contentOffset.y
-        let viewMaxHeight = maxOffset - scrollView.bounds.size.height
-        let alpha = contentOffset / viewMaxHeight
-
-        if alpha >= 1.0 {
-            self.isTranslucent = false
-            self.setBackground(color: color)
-        } else {
-            self.isTranslucent = true
-            self.setBackground(color: color.withAlphaComponent(alpha))
-        }
     }
 }
 
