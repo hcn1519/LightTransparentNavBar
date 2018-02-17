@@ -32,12 +32,12 @@ class ViewController: UIViewController {
         }
     }
 
-    @IBAction func GoToBottomTapped(_ sender: UIButton) {
+    @IBAction func goToBottomTapped(_ sender: UIButton) {
         let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
         scrollView.setContentOffset(bottomOffset, animated: true)
     }
 
-    @IBAction func GoToTopTapped(_ sender: UIButton) {
+    @IBAction func goToTopTapped(_ sender: UIButton) {
 
         let offset = UIApplication.shared.statusBarFrame.size.height +
             (self.navigationController?.navigationBar.frame.size.height)!

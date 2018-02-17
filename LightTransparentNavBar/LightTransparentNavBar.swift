@@ -13,8 +13,7 @@ open class LightTransparentNavBar: UINavigationBar {
 
     open override var alpha: CGFloat {
         didSet {
-            if alpha > 1 {
-                alpha = 1.0
+            if alpha >= 1 {
                 self.isTranslucent = false
                 self.setBackground(color: color)
             } else if alpha < 0 {
@@ -27,7 +26,7 @@ open class LightTransparentNavBar: UINavigationBar {
             }
         }
     }
-    
+
     override open func awakeFromNib() {
         super.awakeFromNib()
         self.showTransparentNavigationBar()
@@ -60,7 +59,7 @@ extension LightTransparentNavBar {
     }
 
     private func setImageFrom(color: UIColor) -> UIImage {
-        let rect = CGRect(x: 0.0, y: 0.0, width:  1.0, height: 1.0)
+        let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
 
         UIGraphicsBeginImageContext(rect.size)
         if let context = UIGraphicsGetCurrentContext() {
@@ -77,12 +76,12 @@ extension LightTransparentNavBar {
     }
 
     func showTransparentNavigationBar() {
-        self.setBackgroundImage(UIImage(), for:.default)
+        self.setBackgroundImage(UIImage(), for: .default)
         self.isTranslucent = true
     }
 
     func hideTransparentNavigationBar() {
-        self.setBackgroundImage(UINavigationBar.appearance().backgroundImage(for: UIBarMetrics.default), for:.default)
+        self.setBackgroundImage(UINavigationBar.appearance().backgroundImage(for: UIBarMetrics.default), for: .default)
         self.isTranslucent = UINavigationBar.appearance().isTranslucent
     }
 }

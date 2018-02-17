@@ -31,7 +31,7 @@
                                                     <color key="titleColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="GoToTopTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4pd-YR-UaR"/>
+                                                    <action selector="goToTopTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZAd-bS-j1g"/>
                                                 </connections>
                                             </button>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image" translatesAutoresizingMaskIntoConstraints="NO" id="IDX-Ba-8mP">
@@ -46,7 +46,7 @@
                                                     <color key="titleColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="GoToBottomTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VnI-Y2-sJ9"/>
+                                                    <action selector="goToBottomTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QmF-76-Ml8"/>
                                                 </connections>
                                             </button>
                                         </subviews>
