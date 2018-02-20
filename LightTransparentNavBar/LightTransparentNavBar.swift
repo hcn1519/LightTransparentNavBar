@@ -9,21 +9,10 @@
 import UIKit
 
 open class LightTransparentNavBar: UINavigationBar {
-    open var color: UIColor = .white
 
-    open override var alpha: CGFloat {
+    open var color: UIColor = .white {
         didSet {
-            if alpha >= 1 {
-                self.isTranslucent = false
-                self.setBackground(color: color)
-            } else if alpha < 0 {
-                alpha = 0.0
-                self.isTranslucent = true
-                self.setBackground(color: color.withAlphaComponent(alpha))
-            } else {
-                self.isTranslucent = true
-                self.setBackground(color: color.withAlphaComponent(alpha))
-            }
+            self.setBackground(color: color)
         }
     }
 
@@ -53,6 +42,7 @@ open class LightTransparentNavBar: UINavigationBar {
         }
     }
 }
+
 extension LightTransparentNavBar {
     func setBackground(color: UIColor) {
         self.setBackgroundImage(setImageFrom(color: color), for: UIBarMetrics.default)
@@ -76,13 +66,22 @@ extension LightTransparentNavBar {
     }
 
     func showTransparentNavigationBar() {
-        self.setBackgroundImage(UIImage(), for: .default)
         self.isTranslucent = true
+        self.setBackgroundImage(UIImage(), for: .default)
+        self.shadowImage = UIImage()
     }
 
     func hideTransparentNavigationBar() {
         self.setBackgroundImage(UINavigationBar.appearance().backgroundImage(for: UIBarMetrics.default), for: .default)
-        self.isTranslucent = UINavigationBar.appearance().isTranslucent
+        self.shadowImage = UINavigationBar.appearance().shadowImage
+    }
+
+    func setNavBarToDefault() {
+        self.isTranslucent = true
+        self.barTintColor = nil
+        self.shadowImage = nil
+        self.alpha = 1.0
+        self.color = .white
     }
 }
 

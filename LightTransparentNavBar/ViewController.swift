@@ -10,50 +10,80 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var tableView: UITableView!
+
+    var navAlpha: CGFloat?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let offset = UIApplication.shared.statusBarFrame.size.height +
-            (self.navigationController?.navigationBar.frame.size.height)!
+    }
 
-        scrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: offset * -1).isActive = true
-        scrollView.delegate = self
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setNavbar()
-        extendedLayoutIncludesOpaqueBars = true
     }
 
     func setNavbar() {
-        if let navigationBar = self.navigationController?.navigationBar as? LightTransparentNavBar {
-            navigationBar.isTransparent = true
-            navigationBar.hideBottomNavigationLine = true
-            navigationBar.color = .blue
+        if let navBar = self.navigationController?.navigationBar as? LightTransparentNavBar {
+            navBar.color = .darkGray
+            navBar.isTransparent = true
+            navBar.hideBottomNavigationLine = true
+            navBar.tintColor = .black
+
+            if let navAlpha = navAlpha {
+                navBar.setBackground(color: navBar.color.withAlphaComponent(navAlpha))
+            }
         }
     }
 
-    @IBAction func goToBottomTapped(_ sender: UIButton) {
-        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
-        scrollView.setContentOffset(bottomOffset, animated: true)
-    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
 
-    @IBAction func goToTopTapped(_ sender: UIButton) {
-
-        let offset = UIApplication.shared.statusBarFrame.size.height +
-            (self.navigationController?.navigationBar.frame.size.height)!
-
-        scrollView.setContentOffset(CGPoint(x: 0, y: offset * -1), animated: true)
+        if let navBar = self.navigationController?.navigationBar as? LightTransparentNavBar {
+//            navBar.setNavBarToDefault()
+        }
     }
 }
 
-extension ViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if let navigationBar = self.navigationController?.navigationBar as? LightTransparentNavBar {
+extension ViewController {
 
-            navigationBar.alpha = scrollView.contentOffset.y / (1500 - scrollView.frame.size.height)
-            print("offset", scrollView.contentOffset.y / 1500)
-            print("alpha", navigationBar.alpha)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let navBar = self.navigationController?.navigationBar as? LightTransparentNavBar {
+
+            if scrollView.contentOffset.y > 0 {
+                let maxHeight = self.tableView.contentSize.height
+
+                let alpha = scrollView.contentOffset.y / (maxHeight - scrollView.frame.size.height)
+
+                self.navAlpha = alpha
+                navBar.setBackground(color: navBar.color.withAlphaComponent(alpha))
+
+                if alpha >= 1.0 {
+                    navBar.isTranslucent = false
+                } else {
+                    navBar.isTranslucent = true
+                }
+            }
         }
 
+    }
+
+}
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 100
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "example1")
+
+        cell.textLabel?.text = "example1"
+        return cell
+    }
+}
+
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "ToScrollExample", sender: nil)
     }
 }
