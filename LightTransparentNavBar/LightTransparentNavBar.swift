@@ -44,7 +44,7 @@ open class LightTransparentNavBar: UINavigationBar {
 }
 
 extension LightTransparentNavBar {
-    func setBackground(color: UIColor) {
+    public func setBackground(color: UIColor) {
         self.setBackgroundImage(setImageFrom(color: color), for: UIBarMetrics.default)
     }
 
@@ -76,7 +76,7 @@ extension LightTransparentNavBar {
         self.shadowImage = UINavigationBar.appearance().shadowImage
     }
 
-    func setNavBarToDefault() {
+    public func setNavBarToDefault() {
         self.isTranslucent = true
         self.barTintColor = nil
         self.shadowImage = nil
